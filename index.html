@@ -179,33 +179,25 @@
     <p class="setup-similar-label">Петр Петров</p>
   </div>
 </template>
-
 <script>
-  /*размер фаербола был равен 22;
-  если фаербол летит по ветру (вправо), скорость его равна 5, иначе он летит против ветра (влево) со скоростью 2;
-  маг двигался со скоростью 3;
-  ширина мага была равна 70, а высота мага считалась по формуле 1.337 * ширину мага;
-  начальное положение мага по горизонтали: центр фигурки находится ровно посередине игрового поля;
-  начальное положение мага по вертикали: фигурка находится на высоте две трети игрового поля от земли.*/
+  const fireballSize = 22;
+  const wizardSpeed = 3;
+  const wizardWidth = 70;
 
-  var fireballSize = 22;
-  var wizardSpeed = 3;
-  var wizardWidth = 70;
-
-  var getFireballSpeed = function (isMovingLeft) {
+  const getFireballSpeed = function (isMovingLeft) {
     return isMovingLeft ? 2 : 5;
   };
-  var getWizardHeight = function () {
+  const getWizardHeight = function () {
     return 1.337 * wizardWidth;
   };
-  var getWizardX = function (gameWidth) {
+  const getWizardX = function (gameWidth) {
     return (gameWidth - wizardWidth) / 2;
   };
-  var getWizardY = function (gameHeight) {
+  const getWizardY = function (gameHeight) {
     return gameHeight / 3;
   };
 </script>
+<script src="js/stat.js"></script>
 <script src="js/game.js"></script>
-
 </body>
 </html>
