@@ -65,12 +65,11 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.rotate(-Math.PI / 2);
 
     let nameBarWidth = (BAR_HEIGHT * times[i]) / maxTime;
-    let nameColorSaturate = Math.round(Math.random() * 100);
 
     if (names[i] === `Вы`) {
       ctx.fillStyle = BAR_SELF_COLOR;
     } else {
-      ctx.fillStyle = `hsl(240, ${nameColorSaturate}%, 50%)`;
+      ctx.fillStyle = `hsl(240, ${Math.round(Math.random() * 100)}%, 50%)`;
     }
     ctx.fillRect(
         CLOUD_PADDINGS.bottom + 40,
