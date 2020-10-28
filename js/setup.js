@@ -1,8 +1,5 @@
 'use strict';
 
-const userDialog = document.querySelector(`.setup`);
-userDialog.classList.remove(`hidden`);
-
 const WIZARDS_DATA = {
   names: [`Иван`, `Хуан Себастьян`, `Мария`, `Кристоф`, `Виктор`, `Юлия`, `Люпита`, `Вашингтон`],
   surnames: [`да Марья`, `Верон`, `Мирабелла`, `Вальц`, `Онопко`, `Топольницкая`, `Нионго`, `Ирвинг`],
@@ -10,9 +7,20 @@ const WIZARDS_DATA = {
   eyesColors: [`black`, `red`, `blue`, `yellow`, `green`]
 };
 
+const FIREBALL_COLORS = [`#ee4830`, `#30a8ee`, `#5ce6c0`, `#e848d5`, `#e6e848`];
 
-Math.randRange = function (min, max) {
+const setup = document.querySelector(`.setup`);
+const setupOpenButton = document.querySelector(`.setup-open`);
+const setupCloseButton = setup.querySelector(`.setup-close`);
+
+
+const getRandRange = function (min, max) {
   return Math.round(min + (Math.random() * (max - min)));
+};
+
+const getRandElement = function (array, inclusive = false) {
+  const max = (inclusive === false) ? array.length - 1 : array.length;
+  return array[getRandRange(0, max)];
 };
 
 const generateWizards = function (count, wizardsData) {
@@ -21,11 +29,11 @@ const generateWizards = function (count, wizardsData) {
   for (let i = 0; i < count; i++) {
     wizards.push(
         {
-          name: `${wizardsData.names[Math.randRange(0, wizardsData.names.length - 1)]}
-          ${wizardsData.surnames[Math.randRange(0, wizardsData.surnames.length - 1)]}`,
+          name: `${wizardsData.names[getRandRange(0, wizardsData.names.length - 1)]}
+          ${wizardsData.surnames[getRandRange(0, wizardsData.surnames.length - 1)]}`,
 
-          coatColor: wizardsData.coatColors[Math.randRange(0, wizardsData.coatColors.length - 1)],
-          eyesColor: wizardsData.eyesColors[Math.randRange(0, wizardsData.eyesColors.length - 1)]
+          coatColor: wizardsData.coatColors[getRandRange(0, wizardsData.coatColors.length - 1)],
+          eyesColor: wizardsData.eyesColors[getRandRange(0, wizardsData.eyesColors.length - 1)]
         }
     );
   }
@@ -64,3 +72,91 @@ const renderList = function (listElement, objects) {
 renderList(similarWizardsList, generateWizards(4, WIZARDS_DATA));
 
 similarWizards.classList.remove(`hidden`);
+
+/* Popup Functions */
+
+const wizardUserName = document.querySelector(`.setup-user-name`);
+
+wizardUserName.addEventListener(`keydown`, function (evt) {
+  evt.stopPropagation();
+});
+
+const popupClosePressESC = function (evt) {
+  if (evt.key === `Escape`) {
+    evt.preventDefault();
+    closePopup();
+  }
+};
+
+const popupClosePressEnter = function (evt) {
+  if (evt.key === `Enter`) {
+    evt.preventDefault();
+
+    closePopup();
+  }
+};
+
+const openPopup = function () {
+  setup.classList.remove(`hidden`);
+
+  document.addEventListener(`keydown`, popupClosePressESC);
+  setupCloseButton.addEventListener(`keydown`, popupClosePressEnter);
+};
+
+const closePopup = function () {
+  setup.classList.add(`hidden`);
+
+  document.removeEventListener(`keydown`, popupClosePressESC);
+  setupCloseButton.removeEventListener(`keydown`, popupClosePressEnter);
+};
+
+setupOpenButton.addEventListener(`click`, function () {
+  openPopup();
+});
+
+setupOpenButton.addEventListener(`keydown`, function (evt) {
+  if (evt.key === `Enter`) {
+    openPopup();
+  }
+});
+
+setupCloseButton.addEventListener(`click`, function () {
+  closePopup();
+});
+
+/* Wizard Appearance */
+
+const setupWizardAppearance = document.querySelector(`.setup-wizard-appearance`);
+const setupWizard = setupWizardAppearance.querySelector(`.setup-wizard`);
+
+const wizardCoat = setupWizard.querySelector(`.wizard-coat`);
+const wizardCoatColorInput = setupWizardAppearance.querySelector(`[name=coat-color]`);
+
+const wizardEyes = setupWizard.querySelector(`.wizard-eyes`);
+const wizardEyesColorInput = setupWizardAppearance.querySelector(`[name=eyes-color]`);
+
+
+wizardCoat.addEventListener(`click`, function () {
+  let randColor = getRandElement(WIZARDS_DATA.coatColors);
+
+  wizardCoat.style.fill = randColor;
+  wizardCoatColorInput.value = randColor;
+});
+
+
+wizardEyes.addEventListener(`click`, function () {
+  let randColor = getRandElement(WIZARDS_DATA.eyesColors);
+
+  wizardEyes.style.fill = randColor;
+  wizardEyesColorInput.value = randColor;
+});
+
+const wizardFireballWrap = document.querySelector(`.setup-fireball-wrap`);
+const wizardFireballColorInput = wizardFireballWrap.querySelector(`[name=fireball-color]`);
+
+wizardFireballWrap.addEventListener(`click`, function () {
+  let randColor = getRandElement(FIREBALL_COLORS);
+
+  wizardFireballWrap.style.backgroundColor = randColor;
+  wizardFireballColorInput.value = randColor;
+});
