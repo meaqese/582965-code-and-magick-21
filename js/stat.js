@@ -51,7 +51,7 @@
     ctx.fillText(`Ура вы победили!`, CLOUD_X + CLOUD_PADDINGS.left, CLOUD_Y + CLOUD_PADDINGS.top);
     ctx.fillText(`Список результатов:`, CLOUD_X + CLOUD_PADDINGS.left, CLOUD_Y + CLOUD_PADDINGS.top + FONT_SIZE);
 
-    ctx.translate(0, Game.canvas.height);
+    ctx.translate(0, window.Game.canvas.height);
 
     const maxTime = getMax(times);
 

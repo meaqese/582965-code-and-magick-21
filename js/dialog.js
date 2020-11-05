@@ -3,14 +3,14 @@
 (function () {
   const FIREBALL_COLORS = [`#ee4830`, `#30a8ee`, `#5ce6c0`, `#e848d5`, `#e6e848`];
 
+  const SETUP_TOP = `80px`;
+  const SETUP_LEFT = `50%`;
+
   const wizardUserName = document.querySelector(`.setup-user-name`);
 
   const setup = window.setup.setup;
   const setupOpenButton = document.querySelector(`.setup-open`);
   const setupCloseButton = setup.querySelector(`.setup-close`);
-
-  const SETUP_TOP = `80px`;
-  const SETUP_LEFT = `50%`;
 
   wizardUserName.addEventListener(`keydown`, function (evt) {
     if (evt.key === `Escape`) {
