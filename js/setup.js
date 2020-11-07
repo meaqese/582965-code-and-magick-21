@@ -1,36 +1,9 @@
 'use strict';
 
 (function () {
-  const WIZARDS_DATA = {
-    names: [`Иван`, `Хуан Себастьян`, `Мария`, `Кристоф`, `Виктор`, `Юлия`, `Люпита`, `Вашингтон`],
-    surnames: [`да Марья`, `Верон`, `Мирабелла`, `Вальц`, `Онопко`, `Топольницкая`, `Нионго`, `Ирвинг`],
-    coatColors: [`rgb(101, 137, 164)`, `rgb(241, 43, 107)`, `rgb(146, 100, 161)`, `rgb(56, 159, 117)`, `rgb(215, 210, 55)`, `rgb(0, 0, 0)`],
-    eyesColors: [`black`, `red`, `blue`, `yellow`, `green`]
-  };
-  const setup = document.querySelector(`.setup`);
+  const MAX_WIZARDS_COUNT = 4;
 
-  window.setup = {
-    WIZARDS_DATA,
-    setup
-  };
-
-  const generateWizards = function (count, wizardsData) {
-    const wizards = [];
-
-    for (let i = 0; i < count; i++) {
-      wizards.push(
-          {
-            name: `${wizardsData.names[window.util.getRandRange(0, wizardsData.names.length - 1)]}
-            ${wizardsData.surnames[window.util.getRandRange(0, wizardsData.surnames.length - 1)]}`,
-
-            coatColor: wizardsData.coatColors[window.util.getRandRange(0, wizardsData.coatColors.length - 1)],
-            eyesColor: wizardsData.eyesColors[window.util.getRandRange(0, wizardsData.eyesColors.length - 1)]
-          }
-      );
-    }
-
-    return wizards;
-  };
+  const setup = window.dialog.setup;
 
   const similarWizards = setup.querySelector(`.setup-similar`);
   const similarWizardsList = setup.querySelector(`.setup-similar-list`);
@@ -45,22 +18,56 @@
     wizardItem.querySelector(`.setup-similar-label`).textContent = wizard.name;
 
     const wizardImage = wizardItem.querySelector(`.setup-similar-wizard`);
-    wizardImage.querySelector(`.wizard-coat`).style.fill = wizard.coatColor;
-    wizardImage.querySelector(`.wizard-eyes`).style.fill = wizard.eyesColor;
+    wizardImage.querySelector(`.wizard-coat`).style.fill = wizard.colorCoat;
+    wizardImage.querySelector(`.wizard-eyes`).style.fill = wizard.colorEyes;
 
     return wizardItem;
   };
 
-  const renderList = function (listElement, objects) {
+  const renderList = function (objects) {
     const fragment = document.createDocumentFragment();
-    for (let object of objects) {
-      fragment.appendChild(renderWizard(object));
+    for (let i = 0; i < MAX_WIZARDS_COUNT; i++) {
+      fragment.appendChild(renderWizard(objects[i]));
     }
 
-    listElement.appendChild(fragment);
+    similarWizardsList.appendChild(fragment);
   };
 
-  renderList(similarWizardsList, generateWizards(4, WIZARDS_DATA));
+  const onLoadError = function (errorText) {
+    const element = document.createElement(`div`);
+
+    element.style.position = `absolute`;
+    element.style.top = `0`;
+    element.style.left = `0`;
+    element.style.backgroundColor = `red`;
+    element.style.textAlign = `center`;
+    element.style.width = `100%`;
+    element.style.height = `40px`;
+    element.style.lineHeight = `40px`;
+
+    if (errorText.length === 0) {
+      errorText = `Ошибка загрузки`;
+    }
+    element.textContent = errorText;
+
+    document.body.append(element);
+
+    setTimeout(function () {
+      element.remove();
+    }, 10000);
+  };
+
+  window.backend.load(renderList, onLoadError);
+
+  const closePopup = window.dialog.closePopup;
+  const form = setup.querySelector(`.setup-wizard-form`);
+  form.addEventListener(`submit`, function (evt) {
+    evt.preventDefault();
+
+    window.backend.save(new FormData(form), function () {
+      closePopup();
+    }, onLoadError);
+  });
 
   similarWizards.classList.remove(`hidden`);
 })();

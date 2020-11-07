@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  const setup = window.setup.setup;
+  const setup = window.dialog.setup;
   const uploadButton = setup.querySelector(`.upload`);
 
   uploadButton.addEventListener(`mousedown`, function (evt) {
