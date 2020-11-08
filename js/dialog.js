@@ -1,6 +1,13 @@
 'use strict';
 
 (function () {
+  const WIZARDS_DATA = {
+    names: [`Иван`, `Хуан Себастьян`, `Мария`, `Кристоф`, `Виктор`, `Юлия`, `Люпита`, `Вашингтон`],
+    surnames: [`да Марья`, `Верон`, `Мирабелла`, `Вальц`, `Онопко`, `Топольницкая`, `Нионго`, `Ирвинг`],
+    coatColors: [`rgb(101, 137, 164)`, `rgb(241, 43, 107)`, `rgb(146, 100, 161)`, `rgb(56, 159, 117)`, `rgb(215, 210, 55)`, `rgb(0, 0, 0)`],
+    eyesColors: [`black`, `red`, `blue`, `yellow`, `green`]
+  };
+
   const FIREBALL_COLORS = [`#ee4830`, `#30a8ee`, `#5ce6c0`, `#e848d5`, `#e6e848`];
 
   const SETUP_TOP = `80px`;
@@ -8,7 +15,7 @@
 
   const wizardUserName = document.querySelector(`.setup-user-name`);
 
-  const setup = window.setup.setup;
+  const setup = document.querySelector(`.setup`);
   const setupOpenButton = document.querySelector(`.setup-open`);
   const setupCloseButton = setup.querySelector(`.setup-close`);
 
@@ -79,7 +86,7 @@
 
 
   wizardCoat.addEventListener(`click`, function () {
-    let randColor = window.util.getRandElement(window.setup.WIZARDS_DATA.coatColors);
+    let randColor = window.util.getRandElement(WIZARDS_DATA.coatColors);
 
     wizardCoat.style.fill = randColor;
     wizardCoatColorInput.value = randColor;
@@ -87,7 +94,7 @@
 
 
   wizardEyes.addEventListener(`click`, function () {
-    let randColor = window.util.getRandElement(window.setup.WIZARDS_DATA.eyesColors);
+    let randColor = window.util.getRandElement(WIZARDS_DATA.eyesColors);
 
     wizardEyes.style.fill = randColor;
     wizardEyesColorInput.value = randColor;
@@ -102,4 +109,8 @@
     wizardFireballWrap.style.backgroundColor = randColor;
     wizardFireballColorInput.value = randColor;
   });
+
+  window.dialog = {
+    setup, closePopup
+  };
 })();
