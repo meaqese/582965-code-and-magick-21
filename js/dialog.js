@@ -1,15 +1,6 @@
 'use strict';
 
 (function () {
-  const WIZARDS_DATA = {
-    names: [`Иван`, `Хуан Себастьян`, `Мария`, `Кристоф`, `Виктор`, `Юлия`, `Люпита`, `Вашингтон`],
-    surnames: [`да Марья`, `Верон`, `Мирабелла`, `Вальц`, `Онопко`, `Топольницкая`, `Нионго`, `Ирвинг`],
-    coatColors: [`rgb(101, 137, 164)`, `rgb(241, 43, 107)`, `rgb(146, 100, 161)`, `rgb(56, 159, 117)`, `rgb(215, 210, 55)`, `rgb(0, 0, 0)`],
-    eyesColors: [`black`, `red`, `blue`, `yellow`, `green`]
-  };
-
-  const FIREBALL_COLORS = [`#ee4830`, `#30a8ee`, `#5ce6c0`, `#e848d5`, `#e6e848`];
-
   const SETUP_TOP = `80px`;
   const SETUP_LEFT = `50%`;
 
@@ -73,41 +64,13 @@
     closePopup();
   });
 
-  /* Wizard Appearance */
+  const form = setup.querySelector(`.setup-wizard-form`);
+  form.addEventListener(`submit`, function (evt) {
+    evt.preventDefault();
 
-  const setupWizardAppearance = document.querySelector(`.setup-wizard-appearance`);
-  const setupWizard = setupWizardAppearance.querySelector(`.setup-wizard`);
-
-  const wizardCoat = setupWizard.querySelector(`.wizard-coat`);
-  const wizardCoatColorInput = setupWizardAppearance.querySelector(`[name=coat-color]`);
-
-  const wizardEyes = setupWizard.querySelector(`.wizard-eyes`);
-  const wizardEyesColorInput = setupWizardAppearance.querySelector(`[name=eyes-color]`);
-
-
-  wizardCoat.addEventListener(`click`, function () {
-    let randColor = window.util.getRandElement(WIZARDS_DATA.coatColors);
-
-    wizardCoat.style.fill = randColor;
-    wizardCoatColorInput.value = randColor;
-  });
-
-
-  wizardEyes.addEventListener(`click`, function () {
-    let randColor = window.util.getRandElement(WIZARDS_DATA.eyesColors);
-
-    wizardEyes.style.fill = randColor;
-    wizardEyesColorInput.value = randColor;
-  });
-
-  const wizardFireballWrap = document.querySelector(`.setup-fireball-wrap`);
-  const wizardFireballColorInput = wizardFireballWrap.querySelector(`[name=fireball-color]`);
-
-  wizardFireballWrap.addEventListener(`click`, function () {
-    let randColor = window.util.getRandElement(FIREBALL_COLORS);
-
-    wizardFireballWrap.style.backgroundColor = randColor;
-    wizardFireballColorInput.value = randColor;
+    window.backend.save(new FormData(form), function () {
+      closePopup();
+    }, window.util.createErrorMessage);
   });
 
   window.dialog = {
