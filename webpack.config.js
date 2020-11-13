@@ -8,6 +8,7 @@ module.exports = {
     './js/stat.js',
     './js/backend.js',
     './js/dialog.js',
+    './js/avatar.js',
     './js/render.js',
     './js/similar-wizards.js',
     './js/move.js'
