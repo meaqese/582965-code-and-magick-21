@@ -1,38 +1,38 @@
 'use strict';
 
-(function () {
-  const MAX_WIZARDS_COUNT = 4;
 
-  const setup = window.dialog.setup;
+const MAX_WIZARDS_COUNT = 4;
 
-  const similarWizards = setup.querySelector(`.setup-similar`);
-  const similarWizardsList = setup.querySelector(`.setup-similar-list`);
+const setup = window.dialog.setup;
 
-  const similarWizardTemplate = document.querySelector(`#similar-wizard-template`)
-    .content.querySelector(`.setup-similar-item`);
+const similarWizards = setup.querySelector(`.setup-similar`);
+const similarWizardsList = setup.querySelector(`.setup-similar-list`);
 
-  const renderWizard = function (wizard) {
-    let wizardItem = similarWizardTemplate.cloneNode(true);
+const similarWizardTemplate = document.querySelector(`#similar-wizard-template`)
+  .content.querySelector(`.setup-similar-item`);
 
-    wizardItem.querySelector(`.setup-similar-label`).textContent = wizard.name;
+const renderWizard = function (wizard) {
+  let wizardItem = similarWizardTemplate.cloneNode(true);
 
-    const wizardImage = wizardItem.querySelector(`.setup-similar-wizard`);
-    wizardImage.querySelector(`.wizard-coat`).style.fill = wizard.colorCoat;
-    wizardImage.querySelector(`.wizard-eyes`).style.fill = wizard.colorEyes;
+  wizardItem.querySelector(`.setup-similar-label`).textContent = wizard.name;
 
-    return wizardItem;
-  };
+  const wizardImage = wizardItem.querySelector(`.setup-similar-wizard`);
+  wizardImage.querySelector(`.wizard-coat`).style.fill = wizard.colorCoat;
+  wizardImage.querySelector(`.wizard-eyes`).style.fill = wizard.colorEyes;
 
-  window.render = function (objects) {
-    window.util.clearAllChildren(similarWizardsList);
+  return wizardItem;
+};
 
-    const fragment = document.createDocumentFragment();
-    for (let i = 0; i < MAX_WIZARDS_COUNT; i++) {
-      fragment.appendChild(renderWizard(objects[i]));
-    }
+window.render = function (objects) {
+  window.util.clearAllChildren(similarWizardsList);
 
-    similarWizardsList.appendChild(fragment);
+  const fragment = document.createDocumentFragment();
+  for (let i = 0; i < MAX_WIZARDS_COUNT; i++) {
+    fragment.appendChild(renderWizard(objects[i]));
+  }
 
-    similarWizards.classList.remove(`hidden`);
-  };
-})();
+  similarWizardsList.appendChild(fragment);
+
+  similarWizards.classList.remove(`hidden`);
+};
+
